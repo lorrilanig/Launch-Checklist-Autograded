@@ -4,17 +4,18 @@ require('cross-fetch/polyfill');
 
 function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     // Here is the HTML formatting for our mission target div.
-    /*
-                 <h2>Mission Destination</h2>
+    let missionTarget = document.getElementById('missionTarget');
+    missionTarget.innerHTML = 
+                 `<h2>Mission Destination</h2>
                  <ol>
-                     <li>Name: </li>
-                     <li>Diameter: </li>
+                     <li>Name: ${name}</li>
+                     <li>Diameter: ${diameter}</li>
                      <li>Star: ${star}</li>
-                     <li>Distance from Earth: </li>
-                     <li>Number of Moons: </li>
+                     <li>Distance from Earth: ${distance}</li>
+                     <li>Number of Moons: ${moons}</li>
                  </ol>
-                 <img src="">
-    */
+                 <img src="${imageUrl}">`
+    
  }
  
  function validateInput(testInput) {
@@ -32,14 +33,14 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     let copilotStatus = document.getElementById('copilotStatus');
     let fuelStatus = document.getElementById('fuelStatus');
     let cargoStatus = document.getElementById('cargoStatus');
-    let launchStatus = document.querySelector('h2[id=launchStatus');
-    list.style.visibility = 'visible';
+    let launchStatus = document.querySelector('#launchStatus');
+    
     if (validateInput(pilot) !== 'Not a Number' || validateInput(copilot) !== 'Not a Number') {
         alert("Enter valid inputs")
       } else {
-        pilotStatus.innerHTML = `Pilot ${pilot.value} is ready for launch`;
-        copilotStatus.innerHTML = `Co-pilot ${copilot.value} is ready for launch`;
-        return;
+        pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`;
+        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+        list.style.visibility = 'visible';
       }
     
       if (validateInput(fuelLevel) === 'Is a Number') {
@@ -68,6 +69,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
       if (fuelLevel >= 10000 && cargoLevel <= 10000) {
         launchStatus.innerHTML = 'Shuttle is Ready for Launch';
         launchStatus.style.color = 'green';
+        list.style.visibility = 'visible'
       }
     
  }
@@ -75,13 +77,15 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  async function myFetch() {
      let planetsReturned;
  
-     planetsReturned = await fetch().then( function(response) {
+     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(res) {
+        return res.json();
          });
  
      return planetsReturned;
  }
  
  function pickPlanet(planets) {
+   return planets[Math.floor(Math.random()*planets.length)];
  }
  
  module.exports.addDestinationInfo = addDestinationInfo;
