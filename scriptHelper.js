@@ -14,16 +14,18 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
                      <li>Distance from Earth: ${distance}</li>
                      <li>Number of Moons: ${moons}</li>
                  </ol>
-                 <img src="${imageUrl}">`
+                 <img src="${imageUrl}">`;
     
  }
  
  function validateInput(testInput) {
     if(testInput === '') {
         return 'Empty';
-    } else if (isNaN(testInput)) {
+    } 
+    if (isNaN(testInput) === true) {
         return 'Not a Number';
-    } else {
+    } 
+    if (isNaN(testInput) === false) {
         return 'Is a Number';
     }
  }
@@ -34,7 +36,8 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
     let fuelStatus = document.getElementById('fuelStatus');
     let cargoStatus = document.getElementById('cargoStatus');
     let launchStatus = document.querySelector('#launchStatus');
-    
+    //let list = document.getElementById('faultyItems')
+    //list.style.visibility = 'visible';
     if (validateInput(pilot) !== 'Not a Number' || validateInput(copilot) !== 'Not a Number') {
         alert("Enter valid inputs")
       } else {
@@ -77,16 +80,16 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
  async function myFetch() {
      let planetsReturned;
  
-     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(res) {
-        return res.json();
+     planetsReturned = await fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+       return response.json();
          });
  
      return planetsReturned;
- }
+ };
  
  function pickPlanet(planets) {
    return planets[Math.floor(Math.random()*planets.length)];
- }
+ };
  
  module.exports.addDestinationInfo = addDestinationInfo;
  module.exports.validateInput = validateInput;
